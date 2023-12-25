@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "alphabeth"
+name = "alphabet"
 version = "0.1.0"
 dependencies = [
  "clap",

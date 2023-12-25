@@ -20,7 +20,7 @@ impl  Alphabeth  {
 
 #[derive(Parser, Debug)]
 struct Args {
-    #[arg(short,long)]
+    #[arg(long)]
     #[clap(value_name = "IP:PORT")]
     ip_port: String,
 }

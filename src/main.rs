@@ -4,6 +4,7 @@ use thirtyfour::prelude::*;
 use serde::{Serialize, Deserialize};
 use std::collections::BTreeMap;
 use serde_json::to_writer_pretty as wp;
+use clap::Parser;
 
 #[derive(Hash, Eq, PartialEq, Debug, Serialize, Deserialize, Clone)]
 struct Alphabeth {
@@ -17,12 +18,22 @@ impl  Alphabeth  {
     }
 }
 
+#[derive(Parser, Debug)]
+struct Args {
+    #[arg(long)]
+    ip_port: String,
+}
+
 #[tokio::main]
 async fn main() -> WebDriverResult<()> {
+    let cli_arg = format!("http://{}", Args::parse().ip_port);
+
     let mut caps = DesiredCapabilities::firefox();
     caps.set_headless()?;
-    let driver = WebDriver::new("http://127.0.0.1:4444", caps).await?;
+
+    let driver = WebDriver::new(&cli_arg, caps).await?;
     driver.goto("https://font-generators.com/ru/").await?;
+    
     let alphabeth_list = "A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
 
     let elem_form_gen = driver.find(By::Id("generator-text")).await?;
